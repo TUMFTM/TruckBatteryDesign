@@ -1,0 +1,9 @@
+Step1_cell_selection/.spyproject/
+*.pyc
+Step2_model_parametrization/Parametrization/1_Electric/Input/
+Step2_model_parametrization/Parametrization/1_Electric/Results/
+Step2_model_parametrization/Inputs/Profiles/
+Step2_model_parametrization/Results/
+Step4_lifetime_simulation/Inputs/loadprofiles/
+Step4_lifetime_simulation/Results/
+Step5_btms_design/Results/
