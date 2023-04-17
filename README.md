@@ -38,7 +38,7 @@ The curve fit of the thermal heat transfer to ambient is found by running the sc
 
 ### Validation
 
-The obtained results from the electric parametrization must now be copied from "Step2_model_parametrization\Parametrization\1_Electric\Results" to "Step2_model_parametrization\Validation\Inputs\cell". The obtained heat transfer coefficient and the scaling coefficients of the aging model are already included in the model parametrization. 
+The obtained results from the electric parametrization must now be copied from "Step2_model_parametrization\Parametrization\1_Electric\Results" to "Step2_model_parametrization\Model\Inputs". The obtained heat transfer coefficient and the scaling coefficients of the aging model are already included in the model parametrization. 
 
 The obtained model is validated using open-source measurements on vehicle level published by https://doi.org/10.14459/2022mp1656314. The following files need to be downloaded and saved to "Step2_model_parametrization\Validation\Inputs\Profiles": 
 - Data\03_Vehicle\04_Charging_sequences\Fast_charging_0-100_VW_warm.csv

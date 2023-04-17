@@ -34,7 +34,7 @@ class Charging():
         #Rules
         self.soc_min = 0.041 #minimum SOC limit
         self.soc_max = 0.97 #maximum SOC limit
-        self.soc_charge = 0.8 #vehicle will only be charged if SOC is below this threshold
+        self.soc_charge = 1 #0.8 #vehicle will only be charged if SOC is below this threshold
 
     def assign_chargers(self, c_profile):
         
@@ -199,7 +199,7 @@ if __name__ == "__main__":
     import os
     if os.getcwd().split("\\")[-1] == "modules":
         os.chdir(("..")) #Change to parent directory for correct paths
-    charging = Charging(720)    
+    charging = Charging(616)    
     with open("results/consumption.pickle",'rb') as f: c_profile = pickle.load(f)
     p_profile = charging.assign_chargers(c_profile)
     p_bat = charging.gen_loadprofile(p_profile)

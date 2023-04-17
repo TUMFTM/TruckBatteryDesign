@@ -24,7 +24,7 @@ class Mobility():
         self.t_home_min = 6 #Minimum time at the home time (required to allow recharging the battery)
         
         #Duration
-        self.days = 10#365 #one year
+        self.days = 365 #one year
         
         #Postprocessing: Remove the probability of a single trip per day to ensure the truck returns to the depot overnight
         self.p_ntrips.loc[self.p_ntrips["Number"] == 1, "Chance_week"] = 0
@@ -37,7 +37,7 @@ class Mobility():
         
         #Postprocessing: Remove bins with too high and too low speeds
         v  = self.p_dist_duration["mean_distance"]/self.p_dist_duration["mean_duration"]*60
-        self.p_dist_duration.loc[v > 85, "Chance"] = 0
+        self.p_dist_duration.loc[v > 80, "Chance"] = 0
         self.p_dist_duration.loc[v < 15, "Chance"] = 0
         self.p_dist_duration["Chance"] = self.p_dist_duration["Chance"]/sum(self.p_dist_duration["Chance"])
         
