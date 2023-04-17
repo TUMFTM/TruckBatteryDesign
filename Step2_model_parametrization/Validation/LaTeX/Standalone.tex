@@ -1,0 +1,127 @@
+% Erzeugung des Dokuments als standalone, andernfalls kann der TikZ-Code nicht kompiliert werden!
+\documentclass{standalone}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{eurosym}
+\usepackage{tikz}
+\usepackage[europeanresistors]{circuitikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{pgf-pie}
+\usepackage{subcaption}
+\pgfplotsset{
+	compat=newest, 
+	footnotesize,
+ 	scaled ticks=false,
+	xtick pos=left,
+	ytick pos=left,
+	max space between ticks=100,
+%	ticklabel style={/pgf/number format/.cd,fixed}
+}
+\renewcommand*\familydefault{\sfdefault} 
+\usepgfplotslibrary{groupplots, fillbetween, dateplot}
+\usetikzlibrary{decorations.markings, positioning} 
+
+% Primary Colors in RGB
+\definecolor{TUMBlue}{RGB}{0,101,189}%      Pantone 300
+\definecolor{TUMWhite}{RGB}{255,255,255}%
+\definecolor{TUMBlack}{RGB}{0,0,0}%
+% Secondary Colors in RGB
+\definecolor{TUMBlue1}{RGB}{0,51,89}%       Pantone 540
+\definecolor{TUMBlue2}{RGB}{0,82,147}%      Pantone 301
+\definecolor{TUMGray1}{RGB}{51,51,51}%
+\definecolor{TUMGray2}{RGB}{127,127,127}%
+\definecolor{TUMGray3}{RGB}{204,204,204}%
+% Accent Colors in RGB
+\definecolor{TUMBlue3}{RGB}{100,160,200}%   Pantone 542
+\definecolor{TUMBlue4}{RGB}{152,198,234}%   Pantone 283
+\definecolor{TUMIvory}{RGB}{218,215,203}%
+\definecolor{TUMOrange}{RGB}{227,114,34}%
+\definecolor{TUMGreen}{RGB}{162,173,0}%
+
+% Custom SI Units
+\AtBeginDocument{%%%%
+	\DeclareSIUnit{\year}{year}
+	\DeclareSIUnit{\C}{C}
+	\DeclareSIUnit{\Wh}{Wh}
+	\DeclareSIUnit{\kWh}{kWh}
+	\DeclareSIUnit{\sieuro}{\mbox{\euro}}
+	\sisetup{
+		mode=text,
+		detect-weight=true,
+		detect-family=true,
+		group-separator={,}
+	}
+}
+
+\pgfplotsset{
+	label style={font=\huge},
+	tick label style ={font=\huge},
+	legend style ={font=\huge},
+	title style = {font=\huge}
+}
+
+\begin{document}
+	\def\parametrization{2RC}
+	\def\profile{Fast_charging_0-100_VW_warm}
+	
+	\tikzstyle{every node}=[font=\huge]
+	\begin{tikzpicture}
+		\begin{groupplot}[
+			width=10in,			
+			enlarge x limits = false,
+			xlabel=Time in hours,
+			ylabel  style = {at={(0,0.5)},yshift=50pt, rotate=-90},
+			grid=major,
+			group style={
+				group size=1 by 4,
+				xlabels at=edge bottom,
+				xticklabels at=edge bottom,
+				vertical sep = 0.5cm
+			}]
+			
+			\nextgroupplot[
+			height=6cm,
+			ylabel=Voltage in \si{\volt},
+			legend entries = {Measured voltages, Simulated voltage},
+			legend cell align={left},
+			legend style={at={(0.95,0.05)},anchor=south east},
+			]
+			\addplot[name path = A, draw=none, forget plot] table {../\parametrization/Results/\profile_Umin.txt};
+			\addplot[name path = B, draw=none, forget plot] table {../\parametrization/Results/\profile_Umax.txt};
+			\addplot[fill=TUMBlue] fill between [of=A and B];
+			\addplot[TUMOrange] table {../\parametrization/Results/\profile_Usim.txt};
+			
+			\nextgroupplot[
+			height = 3.5cm,
+			ylabel=Model error in \si{\milli\volt},
+			]
+			\addplot[TUMBlue] table {../\parametrization/Results/\profile_Uerror_sampled.txt};
+			
+			\nextgroupplot[
+			height=6cm,
+			ymin = 18,
+			ylabel=Temperature in \si{\celsius},
+			legend entries = {Measured temperatures, Simulated cell temperature, Simulated sensor temperature, Simulated housing temperature},
+			legend cell align={left},
+			legend style={
+				at={(0.98,0.05)},
+				anchor=south east,
+				legend columns = 2},
+			]
+			\addplot[name path = A, draw=none, forget plot] table {../\parametrization/Results/\profile_Tmin.txt};
+			\addplot[name path = B, draw=none, forget plot] table {../\parametrization/Results/\profile_Tmax.txt};
+			\addplot[fill=TUMBlue] fill between [of=A and B];
+			\addplot[TUMGreen] table {../\parametrization/Results/\profile_Tc.txt};
+			\addplot[TUMOrange] table {../\parametrization/Results/\profile_Ts.txt};
+			\addplot[TUMBlue] table {../\parametrization/Results/\profile_Th.txt};
+			
+			\nextgroupplot[
+			height = 3.5cm,
+			ylabel=Model error in \si{\celsius},
+			]
+			\addplot[TUMBlue] table {../\parametrization/Results/\profile_Terror_sampled.txt};
+			
+		\end{groupplot}
+	\end{tikzpicture}
+\end{document}

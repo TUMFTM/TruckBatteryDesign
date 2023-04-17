@@ -62,6 +62,15 @@ function validate(filename; generateplots=false)
     Tmeas = fT(t_sim[1:length(res["Ts"])])
     ΔT = res["Ts"]-Tmeas
 
+    #Save to .csv for violin plot
+    open("$(filename)_Verror.txt", "w") do io
+        writedlm(io, ΔV)
+    end
+
+    open("$(filename)_Terror.txt", "w") do io
+        writedlm(io, ΔT)
+    end
+
     if generateplots
 
         #Plot comparison
@@ -101,7 +110,7 @@ profiles = ["Urban_15deg", "Urban_30deg",
             "Highway_15deg", "Highway_30deg", 
             "Wallbox_charging_0-100_VW_11kw", "Fast_charging_0-100_VW_warm"]
 
-res = Dict(p => validate(p, generateplots=true) for p in profiles)
+res = Dict(p => validate(p) for p in profiles)
 
 #Display results as table
 res_table = DataFrame(
