@@ -62,7 +62,6 @@
 }
 
 \begin{document}
-	\def\parametrization{2RC}
 	\def\profile{Fast_charging_0-100_VW_warm}
 	
 	\tikzstyle{every node}=[font=\huge]
@@ -87,16 +86,16 @@
 			legend cell align={left},
 			legend style={at={(0.95,0.05)},anchor=south east},
 			]
-			\addplot[name path = A, draw=none, forget plot] table {../\parametrization/Results/\profile_Umin.txt};
-			\addplot[name path = B, draw=none, forget plot] table {../\parametrization/Results/\profile_Umax.txt};
+			\addplot[name path = A, draw=none, forget plot] table {../Results/\profile_Umin.txt};
+			\addplot[name path = B, draw=none, forget plot] table {../Results/\profile_Umax.txt};
 			\addplot[fill=TUMBlue] fill between [of=A and B];
-			\addplot[TUMOrange] table {../\parametrization/Results/\profile_Usim.txt};
+			\addplot[TUMOrange] table {../Results/\profile_Usim.txt};
 			
 			\nextgroupplot[
 			height = 3.5cm,
 			ylabel=Model error in \si{\milli\volt},
 			]
-			\addplot[TUMBlue] table {../\parametrization/Results/\profile_Uerror_sampled.txt};
+			\addplot[TUMBlue] table {../Results/\profile_Uerror_sampled.txt};
 			
 			\nextgroupplot[
 			height=6cm,
@@ -109,18 +108,18 @@
 				anchor=south east,
 				legend columns = 2},
 			]
-			\addplot[name path = A, draw=none, forget plot] table {../\parametrization/Results/\profile_Tmin.txt};
-			\addplot[name path = B, draw=none, forget plot] table {../\parametrization/Results/\profile_Tmax.txt};
+			\addplot[name path = A, draw=none, forget plot] table {../Results/\profile_Tmin.txt};
+			\addplot[name path = B, draw=none, forget plot] table {../Results/\profile_Tmax.txt};
 			\addplot[fill=TUMBlue] fill between [of=A and B];
-			\addplot[TUMGreen] table {../\parametrization/Results/\profile_Tc.txt};
-			\addplot[TUMOrange] table {../\parametrization/Results/\profile_Ts.txt};
-			\addplot[TUMBlue] table {../\parametrization/Results/\profile_Th.txt};
+			\addplot[TUMGreen] table {../Results/\profile_Tc.txt};
+			\addplot[TUMOrange] table {../Results/\profile_Ts.txt};
+			\addplot[TUMBlue] table {../Results/\profile_Th.txt};
 			
 			\nextgroupplot[
 			height = 3.5cm,
 			ylabel=Model error in \si{\celsius},
 			]
-			\addplot[TUMBlue] table {../\parametrization/Results/\profile_Terror_sampled.txt};
+			\addplot[TUMBlue] table {../Results/\profile_Terror_sampled.txt};
 			
 		\end{groupplot}
 	\end{tikzpicture}

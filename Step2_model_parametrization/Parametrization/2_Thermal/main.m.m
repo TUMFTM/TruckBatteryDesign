@@ -37,27 +37,6 @@ legend(["Ambient", "Tmin", "Tmax", "Tfit"], "Location", "southeast")
 xlabel("Time in hours")
 ylabel("Temperature in °C")
 
-%% To tikz
-ITmin = [diff([1;diff(VW.Tmin.Data)]); 1];
-ITmax = [diff([1;diff(VW.Tmax.Data)]); 1];
-ITamb = [diff([1;diff(Ta.Data)]); 1];
-
-fileID = fopen('Results/Tmin.txt','w');
-fprintf(fileID,'%f %f\n',[VW.Tmin.Time(ITmin~=0),VW.Tmin.Data(ITmin~=0)]');
-fclose(fileID);
-
-fileID = fopen('Results/Tmax.txt','w');
-fprintf(fileID,'%f %f\n',[VW.Tmax.Time(ITmax~=0),VW.Tmax.Data(ITmax~=0)]');
-fclose(fileID);
-
-fileID = fopen('Results/Tamb.txt','w');
-fprintf(fileID,'%f %f\n',[Ta.Time(ITamb~=0),Ta.Data(ITamb~=0)]');
-fclose(fileID);
-
-fileID = fopen('Results/Tfit.txt','w');
-fprintf(fileID,'%f %f\n',[Ta.time,Tsim]');
-fclose(fileID);
-
 %% Functions
 function Rsq = myfit(Tmeas, Ta, k, c)
     Tsim = TM(Tmeas, Ta, k,c);

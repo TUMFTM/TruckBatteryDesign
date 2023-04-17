@@ -1,13 +1,14 @@
-append!(LOAD_PATH, [string(pwd(),"\\Step2_model_parametrization\\Modules"), 
-                    string(pwd(),"\\Step2_model_parametrization\\Inputs\\cell")])
+append!(LOAD_PATH, [string(pwd(),"\\Step2_model_parametrization\\Model\\Modules"), 
+                    string(pwd(),"\\Step2_model_parametrization\\Model\\Inputs"),
+                    string(pwd(),"\\Step2_model_parametrization\\Validation")])
 using DelimitedFiles, Interpolations, DataFrames, Statistics, Cell, Plots, StatsPlots
-using BatteryModel
+using BatteryModel, Downsampler
 
 function validate(filename; generateplots=false)
     println("Validation based on $filename measurements")
 
     ## Read inputs
-    data_raw = readdlm("Step2_model_parametrization\\Inputs\\Profiles\\$filename.csv",',',header=true)
+    data_raw = readdlm("Step2_model_parametrization\\Validation\\Profiles\\$filename.csv",',',header=true)
     data= DataFrame(data_raw[1], vec(data_raw[2]))#[1:48602,:]
 
     ## Process inputs
@@ -63,13 +64,26 @@ function validate(filename; generateplots=false)
     ΔT = res["Ts"]-Tmeas
 
     #Save to .csv for violin plot
-    open("$(filename)_Verror.txt", "w") do io
+    open("Step2_model_parametrization\\Validation\\Results\\$(filename)_Verror.txt", "w") do io
         writedlm(io, ΔV)
     end
 
-    open("$(filename)_Terror.txt", "w") do io
+    open("Step2_model_parametrization\\Validation\\Results\\$(filename)_Terror.txt", "w") do io
         writedlm(io, ΔT)
     end
+
+    #Downsample and save for transient plots
+    downsample_and_save(t_raw./3600, data.Umin, 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Umin")
+    downsample_and_save(t_raw./3600, data.Umax, 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Umax")
+    downsample_and_save(t_sim./3600, res["Vcell"], 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Usim")
+    downsample_and_save(t_sim./3600, ΔV, 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Uerror_sampled")
+
+    downsample_and_save(t_raw./3600, data.Tmin, 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Tmin")
+    downsample_and_save(t_raw./3600, data.Tmax, 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Tmax")
+    downsample_and_save(t_sim./3600, res["Ts"], 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Ts")
+    downsample_and_save(t_sim./3600, res["Tc"], 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Tc")
+    downsample_and_save(t_sim./3600, res["Th"], 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Th")
+    downsample_and_save(t_sim./3600, ΔT, 1000, "Step2_model_parametrization\\Validation\\Results\\$(filename)_Terror_sampled")
 
     if generateplots
 
@@ -85,7 +99,7 @@ function validate(filename; generateplots=false)
         if data.Umean[end]>4
             plot!(legend=:bottomright)
         end
-        savefig(p1, "Step2_model_parametrization\\Results\\$(filename)_voltage.png")
+        savefig(p1, "Step2_model_parametrization\\Validation\\Results\\$(filename)_voltage.png")
 
         #Plot comparison
         l = @layout [a{0.7h}; b{0.3h}]
@@ -98,7 +112,7 @@ function validate(filename; generateplots=false)
         plot!(p2, subplot=2, t_sim/3600, ΔT, xlabel="Time in hours", ylabel="Error in °C", legend=false)
         plot!(p2, size=(800,400))
         plot!(p2, left_margin=5*Plots.PlotMeasures.mm, bottom_margin=5*Plots.PlotMeasures.mm)
-        savefig(p2, "Step2_model_parametrization\\Results\\$(filename)_temperature.png")
+        savefig(p2, "Step2_model_parametrization\\Validation\\Results\\$(filename)_temperature.png")
 
     end
 
