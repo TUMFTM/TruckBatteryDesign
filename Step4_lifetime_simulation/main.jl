@@ -1,5 +1,5 @@
-append!(LOAD_PATH, [string(pwd(),"\\Step2_model_parametrization\\Modules"), 
-                    string(pwd(),"\\Step2_model_parametrization\\Inputs\\cell"), 
+append!(LOAD_PATH, [string(pwd(),"\\Step2_model_parametrization\\Model\\Modules"), 
+                    string(pwd(),"\\Step2_model_parametrization\\Model\\Inputs"), 
                     string(pwd(),"\\Step4_lifetime_simulation\\Inputs")])
 using Plots
 using Preprocessing, BatteryModel

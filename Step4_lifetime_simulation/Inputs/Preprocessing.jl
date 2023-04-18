@@ -5,7 +5,7 @@ export load_temperatureprofile, load_powerprofile
 function load_temperatureprofile(City, dt)
 
     #Load data
-    TempData = readdlm("Step4_lifetime_simulation\\Inputs\\climates\\$City.csv",',',skipstart=1)
+    TempData = readdlm("Step4_lifetime_simulation\\Inputs\\Climate_$City.csv",',',skipstart=1)
 
     #Read out variables
     t_raw = TempData[:,1]
@@ -28,7 +28,7 @@ end
 function load_powerprofile(Application, dt)
 
     #Load data
-    P_raw = readdlm("Step4_lifetime_simulation\\Inputs\\loadprofiles\\$Application.csv",',')[1:end-1] #Skip last value, which is empty
+    P_raw = readdlm("Step4_lifetime_simulation\\Inputs\\Loadprofile_$Application.csv",',')[1:end-1] #Skip last value, which is empty
     t_raw = 0:length(P_raw)-1 #Emobpy profile has 1s timesteps
 
     fP = LinearInterpolation(t_raw,P_raw)

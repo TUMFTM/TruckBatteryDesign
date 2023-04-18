@@ -116,7 +116,7 @@ class Charging():
         p_bat = p_bat[:3600*24*365]
         
         if writetocsv: 
-            with open("results/pbat.csv",'w') as f:
+            with open("results/Loadprofile_Truck.csv",'w') as f:
                 f.writelines(f"{p}, " for p in p_bat[0:-1])
                 f.writelines(f"{p_bat[-1]}") #Write last line without comma
 
