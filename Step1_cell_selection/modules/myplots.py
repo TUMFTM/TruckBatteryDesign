@@ -101,4 +101,4 @@ class Myplots:
         
         fig.tight_layout()
         fig.subplots_adjust(top=0.85)
-        
+        fig.show()
