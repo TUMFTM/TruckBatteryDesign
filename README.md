@@ -84,4 +84,4 @@ Based on the validated battery model and the generated power profile, the lifeti
 
 ## Step 5: Battery thermal management system design
 
-In the last step of the battery design method, the impact of the battery thermal management system on the battery life and battery safety is investigated. Running the script "Step5_btms_design\main.jl" executes full factorial simulations of the impact of the installed cooling power and cooling threshold. The execution time on a 16GB RAM, 1.8GHz machine is less than 3 hours.
+In the last step of the battery design method, the impact of the battery thermal management system on the battery life and battery safety is investigated. Running the script "Step5_btms_design\main.jl" executes full factorial simulations of the impact of the installed cooling power and cooling threshold. The execution time on a 16GB RAM, 1.8GHz machine is less than 3 hours. Subsequently, the script "contourplots.py" can be used to visualize the impact on the maximum and average temperature, the temperature gradient and the battery life. 
